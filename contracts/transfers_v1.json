@@ -1,0 +1,20 @@
+{
+  "name": "rawaj.transfers",
+  "version": "1.0.0",
+  "null_tokens": ["", "na", "n/a", "null", "none", "-"],
+  "primary_key": "transfer_id",
+  "columns": {
+    "transfer_id":      {"type": "string",    "nullable": false, "pattern": "^TRF-[0-9]{8}$"},
+    "created_at":       {"type": "timestamp", "nullable": false, "not_after_as_of": true},
+    "sender_account":   {"type": "string",    "nullable": false, "pattern": "^[0-9]{10}$"},
+    "receiver_account": {"type": "string",    "nullable": false, "pattern": "^[0-9]{10}$"},
+    "amount":           {"type": "money",     "nullable": false, "min": 100, "max": 6000000},
+    "channel":          {"type": "string",    "nullable": false, "allowed": ["app", "ussd", "web", "agent"]},
+    "status":           {"type": "string",    "nullable": false, "allowed": ["completed", "reversed", "failed"]},
+    "is_first_payee":   {"type": "boolean",   "nullable": true},
+    "device_age_days":  {"type": "integer",   "nullable": true, "min": 0}
+  },
+  "row_rules": [
+    {"rule": "distinct", "columns": ["sender_account", "receiver_account"]}
+  ]
+}
